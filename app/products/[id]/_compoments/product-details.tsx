@@ -6,7 +6,12 @@ import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
 import { calculateProductPrice, formatCurrency } from "@/app/_helpers/price";
 import { Prisma } from "@prisma/client";
-import { BikeIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import {
+  BikeIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  TimerIcon,
+} from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -107,8 +112,8 @@ const ProductDetails = ({
 
           <div className="flex flex-col items-center">
             <div className="flex items-center gap-1 text-muted-foreground">
-              <span className="text-xs">Tempo</span>
-              <BikeIcon size={14} />
+              <span className="text-xs">Entrega</span>
+              <TimerIcon size={14} />
             </div>
             <p className="text-xs font-semibold">
               {product.restaurant.deliveryTimeMinutes} min
@@ -125,6 +130,10 @@ const ProductDetails = ({
       <div className="mt-6 space-y-3">
         <h3 className="font-semibold">Sucos</h3>
         <ProductList products={complementaryProducts} />
+      </div>
+
+      <div className="mt-6 px-5">
+        <Button className="w-full font-semibold">Adicionar à sacola</Button>
       </div>
     </div>
   );
