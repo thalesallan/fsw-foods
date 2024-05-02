@@ -1,19 +1,14 @@
 "use client";
 
+import AddItems from "@/app/_components/add-items";
+import DeliveryInfo from "@/app/_components/delivery-info";
 import BadgeDiscount from "@/app/_components/discount-badge";
 import ProductList from "@/app/_components/product-list";
 import { Button } from "@/app/_components/ui/button";
-import { Card } from "@/app/_components/ui/card";
 import { calculateProductPrice, formatCurrency } from "@/app/_helpers/price";
 import { Prisma } from "@prisma/client";
-import {
-  BikeIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  TimerIcon,
-} from "lucide-react";
+
 import Image from "next/image";
-import { useState } from "react";
 
 interface ProductDetailsProps {
   product: Prisma.ProductGetPayload<{
@@ -25,9 +20,6 @@ interface ProductDetailsProps {
     include: {
       restaurant: true;
     };
-    orderBy: {
-      discountPercentage: "desc";
-    };
   }>[];
 }
 
@@ -35,15 +27,6 @@ const ProductDetails = ({
   product,
   complementaryProducts,
 }: ProductDetailsProps) => {
-  const [quantity, Setquantity] = useState(1);
-
-  const incrementQuantity = () =>
-    Setquantity((currentState) => currentState + 1);
-  const decrementQuantity = () =>
-    Setquantity((currentState) =>
-      currentState > 1 ? currentState - 1 : currentState,
-    );
-
   return (
     <div className=" relative mt-[-1.5rem] rounded-tl-3xl rounded-tr-3xl bg-white py-5 shadow-inner">
       <div className="itens-center flex gap-[0.375rem] px-5">
@@ -77,49 +60,13 @@ const ProductDetails = ({
             De: {formatCurrency(Number(product.price))}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="border border-solid border-muted-foreground"
-            onClick={decrementQuantity}
-          >
-            <ChevronLeftIcon />
-          </Button>
-          <span className="w-4 text-center">{quantity}</span>
-          <Button size="icon" onClick={incrementQuantity}>
-            <ChevronRightIcon />
-          </Button>
+        <div className="gap-2">
+          <AddItems />
         </div>
       </div>
 
       <div className="px-5">
-        <Card className="mt-5 flex justify-around py-3">
-          <div className="flex flex-col items-center">
-            <div className="flex items-center gap-1 text-muted-foreground">
-              <span className="text-xs">Entraga</span>
-              <BikeIcon size={14} />
-            </div>
-
-            {Number(product.restaurant.deliveryFee) > 0 ? (
-              <p className="text-xs font-semibold">
-                {formatCurrency(Number(product.restaurant.deliveryFee))}
-              </p>
-            ) : (
-              <p className="text-xs font-semibold">Grátis</p>
-            )}
-          </div>
-
-          <div className="flex flex-col items-center">
-            <div className="flex items-center gap-1 text-muted-foreground">
-              <span className="text-xs">Entrega</span>
-              <TimerIcon size={14} />
-            </div>
-            <p className="text-xs font-semibold">
-              {product.restaurant.deliveryTimeMinutes} min
-            </p>
-          </div>
-        </Card>
+        <DeliveryInfo restaurant={product.restaurant} />
       </div>
 
       <div className="mt-6 space-y-3 px-5">
@@ -127,10 +74,10 @@ const ProductDetails = ({
         <p className="text-sm text-muted-foreground">{product.description}</p>
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mb-3 mt-6 space-y-3 px-5">
         <h3 className="font-semibold">Sucos</h3>
-        <ProductList products={complementaryProducts} />
       </div>
+      <ProductList products={complementaryProducts} />
 
       <div className="mt-6 px-5">
         <Button className="w-full font-semibold">Adicionar à sacola</Button>
