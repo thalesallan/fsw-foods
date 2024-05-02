@@ -4,15 +4,17 @@ import Image from "next/image";
 import { formatCurrency } from "../_helpers/price";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { cn } from "../_lib/utils";
 
 interface RestaurantItemProps {
   restaurant: Restaurant;
+  className?: string;
 }
 
-const RestaurantItem = ({ restaurant }: RestaurantItemProps) => {
+const RestaurantItem = ({ restaurant, className }: RestaurantItemProps) => {
   return (
     <Link
-      className="min-w-[266px] max-w-[266px]"
+      className={cn("min-w-[266px] max-w-[266px]", className)}
       href={`/restaurants/${restaurant.id}`}
     >
       <div className="space-y-3">
@@ -21,7 +23,7 @@ const RestaurantItem = ({ restaurant }: RestaurantItemProps) => {
             src={restaurant.imageUrl}
             alt={restaurant.name}
             fill
-            className="objetc-cover rounded-lg"
+            className="rounded-lg object-cover"
           />
           <div className="absolute left-2 top-2 flex items-center gap-[2px] rounded-full bg-white px-[8px] py-[4px]">
             <StarIcon size={12} className="fill-yellow-400 text-yellow-400" />
