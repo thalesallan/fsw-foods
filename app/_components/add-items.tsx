@@ -2,12 +2,12 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
-const AddItems = () => {
+export const AddItems = () => {
   const [quantity, Setquantity] = useState(1);
 
-  const incrementQuantity = () =>
+  const handleIncrementQuantity = () =>
     Setquantity((currentState) => currentState + 1);
-  const decrementQuantity = () =>
+  const handleDecrementQuantity = () =>
     Setquantity((currentState) =>
       currentState > 1 ? currentState - 1 : currentState,
     );
@@ -18,12 +18,12 @@ const AddItems = () => {
         size="icon"
         variant="ghost"
         className="border border-solid border-muted-foreground"
-        onClick={decrementQuantity}
+        onClick={handleDecrementQuantity}
       >
         <ChevronLeftIcon />
       </Button>
       <span className="w-8 text-center">{quantity}</span>
-      <Button size="icon" onClick={incrementQuantity}>
+      <Button size="icon" onClick={handleIncrementQuantity}>
         <ChevronRightIcon />
       </Button>
     </div>
