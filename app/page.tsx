@@ -1,12 +1,12 @@
-import CategoryList from "./_components/category-list";
-import Header from "./_components/header";
-import Search from "./_components/search";
-import ProductList from "./_components/product-list";
+import CategoryList from "./_components/category/category-list";
+import Header from "./_components/shared/header";
+import Search from "./_components/search/search";
+import ProductList from "./_components/product/product-list";
 import { Button } from "./_components/ui/button";
 import { ChevronRightIcon } from "lucide-react";
 import { db } from "./_lib/prisma";
-import PromoBanner from "./_components/promo-banner";
-import RestaurantList from "./_components/restaurant-list";
+import PromoBanner from "./_components/shared/promo-banner";
+import RestaurantList from "./_components/restaurant/restaurant-list";
 import Link from "next/link";
 
 export default async function Home() {
