@@ -11,14 +11,10 @@ interface AddItemsPropos {
 
 export interface IAddItemsContex {
   quantity: number;
-  handleIncrementQuantity: () => void;
-  handleDecrementQuantity: () => void;
 }
 
 export const AddItemsContex = createContext<IAddItemsContex>({
   quantity: 1,
-  handleIncrementQuantity: () => {},
-  handleDecrementQuantity: () => {},
 });
 
 export const AddItems = ({ className, size }: AddItemsPropos) => {
@@ -36,8 +32,6 @@ export const AddItems = ({ className, size }: AddItemsPropos) => {
     <AddItemsContex.Provider
       value={{
         quantity,
-        handleIncrementQuantity,
-        handleDecrementQuantity,
       }}
     >
       <div className="flex items-center">
