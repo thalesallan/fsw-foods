@@ -1,14 +1,54 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../../_contex/cart";
 import CartItem from "./cart-item";
 import { Card, CardContent } from "../ui/card";
 import { formatCurrency } from "@/app/_helpers/price";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
+import { createOrder } from "@/app/_actions/order";
+import { OrderStatus } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { Loader2 } from "lucide-react";
 
 const Cart = () => {
-  const { products, totalDiscounts, totalPrice, subtotalPrice } =
+  const { data } = useSession();
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+
+  const { products, totalDiscounts, totalPrice, subtotalPrice, clearCart } =
     useContext(CartContext);
+
+  const handleFinishOrderClick = async () => {
+    if (!data?.user) return;
+
+    const restaurant = products[0].restaurant;
+
+    try {
+      setIsSubmitLoading(true);
+
+      await createOrder({
+        subtotalPrice,
+        totalDiscounts,
+        totalPrice,
+        deliveryFee: restaurant.deliveryFee,
+        deliveryTimeMinutes: restaurant.deliveryTimeMinutes,
+        restaurant: {
+          connect: {
+            id: restaurant.id,
+          },
+        },
+        status: OrderStatus.CONFIRMED,
+        user: {
+          connect: { id: data.user.id },
+        },
+      });
+
+      clearCart();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitLoading(false);
+    }
+  };
 
   return (
     <div className="flex h-full flex-col py-5">
@@ -55,7 +95,14 @@ const Cart = () => {
             </Card>
           </div>
 
-          <Button className="mt-6 w-full">Finalizar pedido</Button>
+          <Button
+            className="mt-6 w-full"
+            onClick={handleFinishOrderClick}
+            disabled={isSubmitLoading}
+          >
+            {isSubmitLoading && <Loader2 className="mr-2 h-4 animate-spin" />}
+            Finalizar pedido
+          </Button>
         </>
       ) : (
         <div className="flex items-center justify-center">
