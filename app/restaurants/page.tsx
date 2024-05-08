@@ -27,15 +27,11 @@ const Restaurants = () => {
     <>
       <Header />
       <div className="px-5 py-6">
-        {restaurants.length > 0 ? (
-          <h2 className="mb-6 text-lg font-semibold">
-            Restaurantes Encontrados
-          </h2>
-        ) : (
-          <h2 className="mb-6 text-lg font-semibold">
-            Ops... Não encontramos nada!
-          </h2>
-        )}
+        <h2 className="mb-6 text-lg font-semibold">
+          {restaurants.length > 0
+            ? "Restaurantes Encontrados"
+            : "Ops... Não encontramos nada!"}
+        </h2>
         <div className="flex w-full flex-col gap-6">
           {restaurants.map((restaurants) => (
             <RestaurantItem
