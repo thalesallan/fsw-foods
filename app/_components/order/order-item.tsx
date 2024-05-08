@@ -64,13 +64,16 @@ const OrderItem = ({ order }: OrderItemProps) => {
   const { addProductToCart } = useContext(CartContext);
   const router = useRouter();
 
-  const HandleRedoOrderClick = () => {
-    order.products.forEach((orderProduct) => {
+  const handleRedoOrderClick = () => {
+    for (const orderProduct of order.products) {
       addProductToCart({
-        product: { ...orderProduct.product, restaurant: order.restaurant },
-        quantity: orderProduct.quantity,
+        product: {
+          ...orderProduct.product,
+          restaurant: order.restaurant,
+          quantity: orderProduct.quantity,
+        },
       });
-    });
+    }
 
     router.push(`/restaurants/${order.restaurantId}`);
   };
@@ -140,7 +143,7 @@ const OrderItem = ({ order }: OrderItemProps) => {
           <Button
             variant="ghost"
             className="font-semibold text-primary"
-            onClick={HandleRedoOrderClick}
+            onClick={handleRedoOrderClick}
             disabled={order.status !== OrderStatus.COMPLETED}
           >
             <Link href={"/"}>Adicionar à sacola</Link>
