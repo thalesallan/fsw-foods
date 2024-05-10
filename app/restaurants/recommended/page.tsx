@@ -1,9 +1,9 @@
 import Header from "@/app/_components/shared/header";
 import RestaurantItem from "@/app/_components/restaurant/restaurant-item";
-import { db } from "@/app/_lib/prisma";
+import { getRestaurants } from "@/app/_actions/restaurant";
 
 const RecommendedRestaurants = async () => {
-  const restaurants = await db.restaurant.findMany({});
+  const restaurants = await getRestaurants();
 
   return (
     <>

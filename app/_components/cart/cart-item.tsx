@@ -2,7 +2,7 @@ import { CartContext, CartProduct } from "@/app/_contex/cart";
 import {
   calculateProductTotalPrice,
   formatCurrency,
-} from "@/app/_helpers/price";
+} from "@/app/helpers/price";
 import Image from "next/image";
 import { AddItems } from "../shared/add-items";
 import { useContext } from "react";

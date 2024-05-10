@@ -7,11 +7,12 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { ChevronRightIcon } from "lucide-react";
 import { Separator } from "../ui/separator";
-import { formatCurrency } from "@/app/_helpers/price";
+import { formatCurrency } from "@/app/helpers/price";
 import Link from "next/link";
 import { useContext } from "react";
 import { CartContext } from "@/app/_contex/cart";
 import { useRouter } from "next/navigation";
+import { getOrderColor, getOrderStatus } from "@/app/utils/order-status";
 
 interface OrderItemProps {
   order: Prisma.OrderGetPayload<{
@@ -25,40 +26,6 @@ interface OrderItemProps {
     };
   }>;
 }
-
-const getOrderStatus = (status: OrderStatus) => {
-  switch (status) {
-    case OrderStatus.CANCELED:
-      return "Cancelado";
-    case OrderStatus.COMPLETED:
-      return "Entregue";
-    case OrderStatus.CONFIRMED:
-      return "Confirmado";
-    case OrderStatus.DELIVERING:
-      return "Em Transporte";
-    case OrderStatus.PREPARING:
-      return "Preparando";
-    default:
-      return "Unknown";
-  }
-};
-
-const getOrderColor = (status: OrderStatus) => {
-  switch (status) {
-    case OrderStatus.CANCELED:
-      return "bg-[#EEEEEE]";
-    case OrderStatus.COMPLETED:
-      return "bg-[#5DC05B] text-white";
-    case OrderStatus.CONFIRMED:
-      return "bg-[#5DC05B] text-white";
-    case OrderStatus.DELIVERING:
-      return "bg-[#5DC05B] text-white";
-    case OrderStatus.PREPARING:
-      return "bg-[#5DC05B] text-white";
-    default:
-      return "Unknown";
-  }
-};
 
 const OrderItem = ({ order }: OrderItemProps) => {
   const { addProductToCart } = useContext(CartContext);

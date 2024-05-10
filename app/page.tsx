@@ -4,27 +4,13 @@ import Search from "./_components/search/search";
 import ProductList from "./_components/product/product-list";
 import { Button } from "./_components/ui/button";
 import { ChevronRightIcon } from "lucide-react";
-import { db } from "./_lib/prisma";
 import PromoBanner from "./_components/shared/promo-banner";
 import RestaurantList from "./_components/restaurant/restaurant-list";
 import Link from "next/link";
+import { getRecommendedProducts } from "./_actions/product";
 
 export default async function Home() {
-  const products = await db.product.findMany({
-    where: {
-      discountPercentage: {
-        gt: 0,
-      },
-    },
-    take: 10,
-    include: {
-      restaurant: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
+  const products = await getRecommendedProducts(10);
 
   return (
     <>

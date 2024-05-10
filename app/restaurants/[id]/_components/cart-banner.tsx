@@ -4,7 +4,7 @@ import Cart from "@/app/_components/cart/cart";
 import { Button } from "@/app/_components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/app/_components/ui/sheet";
 import { CartContext } from "@/app/_contex/cart";
-import { formatCurrency } from "@/app/_helpers/price";
+import { formatCurrency } from "@/app/helpers/price";
 import { Restaurant } from "@prisma/client";
 import { useContext, useState } from "react";
 

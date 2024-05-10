@@ -8,7 +8,7 @@ import { Button } from "@/app/_components/ui/button";
 import {
   calculateProductTotalPrice,
   formatCurrency,
-} from "@/app/_helpers/price";
+} from "@/app/helpers/price";
 import { Prisma } from "@prisma/client";
 
 import Image from "next/image";

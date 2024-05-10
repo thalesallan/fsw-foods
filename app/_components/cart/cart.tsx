@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { CartContext } from "../../_contex/cart";
 import CartItem from "./cart-item";
 import { Card, CardContent } from "../ui/card";
-import { formatCurrency } from "@/app/_helpers/price";
+import { formatCurrency } from "@/app/helpers/price";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { createOrder } from "@/app/_actions/order";

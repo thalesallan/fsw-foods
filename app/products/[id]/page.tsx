@@ -1,7 +1,9 @@
-import { db } from "@/app/_lib/prisma";
-import { notFound } from "next/navigation";
 import ProductImage from "./_compoments/product-image";
 import ProductDetails from "./_compoments/product-details";
+import {
+  getJuicesByRestaurantId,
+  getProductByRestaurantId,
+} from "@/app/_actions/product";
 
 interface ProductPageProps {
   params: {
@@ -10,32 +12,8 @@ interface ProductPageProps {
 }
 
 const ProductPage = async ({ params: { id } }: ProductPageProps) => {
-  const product = await db.product.findUnique({
-    where: {
-      id: id,
-    },
-    include: {
-      restaurant: true,
-    },
-  });
-
-  if (!product) {
-    return notFound();
-  }
-
-  const juices = await db.product.findMany({
-    where: {
-      category: {
-        name: "Sucos",
-      },
-      restaurant: {
-        id: product?.restaurant.id,
-      },
-    },
-    include: {
-      restaurant: true,
-    },
-  });
+  const product = await getProductByRestaurantId(id);
+  const juices = await getJuicesByRestaurantId(product.restaurantId);
 
   return (
     <div>

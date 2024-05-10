@@ -3,7 +3,7 @@
 
 import { Prisma } from "@prisma/client";
 import { ReactNode, createContext, useMemo, useState } from "react";
-import { calculateProductTotalPrice } from "../_helpers/price";
+import { calculateProductTotalPrice } from "../helpers/price";
 
 export interface CartProduct
   extends Prisma.ProductGetPayload<{

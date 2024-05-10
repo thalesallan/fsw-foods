@@ -1,11 +1,10 @@
-import { db } from "@/app/_lib/prisma";
-import { notFound } from "next/navigation";
 import RestaurantImage from "./_components/restaurant-image";
 import Image from "next/image";
 import { StarIcon } from "lucide-react";
 import DeliveryInfo from "@/app/_components/shared/delivery-info";
 import ProductList from "@/app/_components/product/product-list";
 import CartBanner from "./_components/cart-banner";
+import { getRestaurantsById } from "@/app/_actions/restaurant";
 
 interface RestaurantPageProps {
   params: {
@@ -14,43 +13,7 @@ interface RestaurantPageProps {
 }
 
 const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
-  const restaurant = await db.restaurant.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      categories: {
-        include: {
-          products: {
-            where: {
-              restaurantId: id,
-            },
-            include: {
-              restaurant: {
-                select: {
-                  name: true,
-                },
-              },
-            },
-          },
-        },
-      },
-      products: {
-        take: 10,
-        include: {
-          restaurant: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
-  if (!restaurant) {
-    return notFound();
-  }
+  const restaurant = await getRestaurantsById(id);
 
   return (
     <div>
