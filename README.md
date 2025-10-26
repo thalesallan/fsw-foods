@@ -1,36 +1,182 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🍔 FSW Foods
 
-## Getting Started
+Uma réplica moderna do iFood desenvolvida durante o bootcamp **Full Stack Week**, criada em Next.js 14 com foco em demonstrar práticas avançadas de desenvolvimento web em apenas uma semana de desenvolvimento intensivo.
 
-First, run the development server:
+## 🎯 Sobre o Projeto
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+O FSW Foods é um clone do iFood desenvolvido como projeto prático durante o bootcamp Full Stack Week. O objetivo foi recriar as principais funcionalidades de um app de delivery moderno, incluindo autenticação, carrinho de compras, sistema de favoritos e uma interface responsiva que replica a experiência do usuário do iFood.
+
+### 🏆 Objetivos do Bootcamp
+- Demonstrar o poder do Next.js 14 com App Router
+- Implementar autenticação social completa
+- Criar uma arquitetura escalável e maintível
+- Aplicar práticas modernas de desenvolvimento React
+- Integrar banco de dados com Prisma ORM
+- Construir uma UI/UX profissional
+
+## 🚀 Visão Geral
+
+O projeto replica as principais funcionalidades do iFood, oferecendo uma experiência completa de pedidos online com autenticação, navegação por restaurantes, carrinho de compras inteligente e sistema de favoritos. Foi desenvolvido seguindo as melhores práticas do ecossistema React/Next.js.
+
+## ✨ Funcionalidades
+
+### 🔐 Autenticação
+- Login social com Google (NextAuth.js)
+- Sessões persistentes
+- Proteção de rotas
+
+### 🏪 Restaurantes
+- Listagem de restaurantes
+- Busca por nome
+- Sistema de favoritos
+- Informações de entrega e tempo
+- Visualização de cardápio
+
+### 🛒 Carrinho de Compras
+- Adicionar/remover produtos
+- Controle de quantidade
+- Cálculo automático de totais
+- Simulação de pedidos
+
+### ❤️ Sistema de Favoritos
+- Marcar/desmarcar restaurantes favoritos
+- Página dedicada aos favoritos
+- Sincronização em tempo real
+
+### 📱 Interface Responsiva
+- Design mobile-first
+- Componentes acessíveis
+- Animações suaves
+- Dark/Light theme
+
+## 🛠️ Tecnologias Utilizadas
+
+### Frontend
+- **Next.js 14** - Framework React com App Router
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS** - Estilização utilitária
+- **Radix UI** - Componentes acessíveis
+- **Lucide React** - Ícones
+- **Sonner** - Notificações toast
+
+### Backend
+- **Next.js API Routes** - API serverless
+- **Prisma** - ORM e migrations
+- **NeonDB** - Banco PostgreSQL serverless
+- **NextAuth.js** - Autenticação
+
+### Ferramentas de Desenvolvimento
+- **ESLint** - Linting
+- **Prettier** - Formatação de código
+- **Husky** - Git hooks
+- **TypeScript** - Verificação de tipos
+
+## 📁 Estrutura do Projeto
+
+```
+fsw-foods/
+├── app/                    # App Router (Next.js 14)
+│   ├── _actions/          # Server Actions
+│   ├── _components/       # Componentes React
+│   ├── _lib/             # Utilitários e configurações
+│   ├── _providers/       # Context Providers
+│   ├── api/              # API Routes
+│   └── [pages]/          # Páginas da aplicação
+├── prisma/               # Schema e migrações do banco
+├── public/               # Arquivos estáticos
+└── docs/                 # Documentação
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Começando
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Pré-requisitos
+- Node.js 18+ 
+- npm ou yarn
+- Conta no NeonDB (ou PostgreSQL local)
+- Credenciais do Google OAuth
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Instalação
 
-## Learn More
+1. **Clone o repositório**
+```bash
+git clone <repository-url>
+cd fsw-foods
+```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Instale as dependências**
+```bash
+npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Configure as variáveis de ambiente**
+```bash
+cp .env.example .env
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Preencha o arquivo `.env` com suas credenciais:
+```env
+# Database
+DATABASE_URL="postgresql://user:password@host:port/database"
 
-## Deploy on Vercel
+# NextAuth
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key"
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Google OAuth
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+4. **Execute as migrações do banco**
+```bash
+npx prisma migrate dev
+```
+
+5. **Gere o Prisma Client**
+```bash
+npx prisma generate
+```
+
+6. **Inicie o servidor de desenvolvimento**
+```bash
+npm run dev
+```
+
+A aplicação estará disponível em `http://localhost:3000`
+
+## 📖 Documentação Adicional
+
+- [🏗️ Arquitetura](./docs/ARCHITECTURE.md)
+- [💾 Banco de Dados](./docs/DATABASE.md)
+- [🔐 Autenticação](./docs/AUTHENTICATION.md)
+- [🎨 Componentes](./docs/COMPONENTS.md)
+- [🚀 Deploy](./docs/DEPLOYMENT.md)
+
+## 🤝 Contribuindo
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Scripts Disponíveis
+
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Build de produção
+- `npm run start` - Inicia o servidor de produção
+- `npm run lint` - Executa o linter
+- `npm run prisma:studio` - Abre o Prisma Studio
+- `npm run prisma:migrate` - Executa migrações
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👨‍💻 Desenvolvedor
+
+Desenvolvido por ThalesDev como parte do curso Full Stack Week.
+
+---
+
+⭐ Se este projeto te ajudou, deixe uma estrela!
