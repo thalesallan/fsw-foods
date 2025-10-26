@@ -61,3 +61,60 @@ export const getRestaurantsById = async (id: string) => {
 
   return !restaurant ? notFound() : restaurant;
 };
+
+export const getRestaurantsWithFavorites = async (
+  userId?: string,
+  take?: number,
+) => {
+  const restaurants = await db.restaurant.findMany({
+    take: take,
+    include: {
+      usersWhoFavorited: userId
+        ? {
+            where: {
+              userId: userId,
+            },
+          }
+        : false,
+    },
+  });
+
+  if (!restaurants) notFound();
+
+  return restaurants.map((restaurant) => ({
+    ...restaurant,
+    isFavorited: userId ? restaurant.usersWhoFavorited.length > 0 : false,
+    usersWhoFavorited: undefined, // Remove os dados internos
+  }));
+};
+
+export const getRestaurantsTopOrdersWithFavorites = async (
+  userId?: string,
+  take: number = 10,
+) => {
+  const restaurants = await db.restaurant.findMany({
+    take: take,
+    orderBy: {
+      orders: {
+        _count: "desc",
+      },
+    },
+    include: {
+      usersWhoFavorited: userId
+        ? {
+            where: {
+              userId: userId,
+            },
+          }
+        : false,
+    },
+  });
+
+  if (!restaurants) notFound();
+
+  return restaurants.map((restaurant) => ({
+    ...restaurant,
+    isFavorited: userId ? restaurant.usersWhoFavorited.length > 0 : false,
+    usersWhoFavorited: undefined, // Remove os dados internos
+  }));
+};

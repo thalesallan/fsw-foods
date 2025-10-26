@@ -1,9 +1,12 @@
 import Header from "@/app/_components/shared/header";
 import RestaurantItem from "@/app/_components/restaurant/restaurant-item";
-import { getRestaurants } from "@/app/_actions/restaurant";
+import { getRestaurantsWithFavorites } from "@/app/_actions/restaurant";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/_lib/auth";
 
 const RecommendedRestaurants = async () => {
-  const restaurants = await getRestaurants();
+  const session = await getServerSession(authOptions);
+  const restaurants = await getRestaurantsWithFavorites(session?.user?.id);
 
   return (
     <>
@@ -18,6 +21,7 @@ const RecommendedRestaurants = async () => {
               key={restaurant.id}
               restaurant={restaurant}
               className="min-w-full max-w-full"
+              isFavorited={restaurant.isFavorited}
             />
           ))}
         </div>

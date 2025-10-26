@@ -5,6 +5,9 @@ import DeliveryInfo from "@/app/_components/shared/delivery-info";
 import ProductList from "@/app/_components/product/product-list";
 import CartBanner from "./_components/cart-banner";
 import { getRestaurantsById } from "@/app/_actions/restaurant";
+import { isRestaurantFavorited } from "@/app/_actions/favorite";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/_lib/auth";
 
 interface RestaurantPageProps {
   params: {
@@ -13,11 +16,16 @@ interface RestaurantPageProps {
 }
 
 const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
+  const session = await getServerSession(authOptions);
   const restaurant = await getRestaurantsById(id);
+
+  const isFavorited = session?.user?.id
+    ? await isRestaurantFavorited(session.user.id, id)
+    : false;
 
   return (
     <div>
-      <RestaurantImage restaurant={restaurant} />
+      <RestaurantImage restaurant={restaurant} isFavorited={isFavorited} />
 
       <div className="relative mt-[-1.5rem] flex items-center justify-between rounded-tl-3xl rounded-tr-3xl bg-white px-5 py-5 pt-5 shadow-inner">
         <div className="flex items-center gap-[0.375rem]">

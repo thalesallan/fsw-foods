@@ -3,14 +3,19 @@
 import { Restaurant } from "@prisma/client";
 import Image from "next/image";
 import { Button } from "../../../_components/ui/button";
-import { ChevronLeftIcon, HeartIcon } from "lucide-react";
+import { ChevronLeftIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import FavoriteButton from "../../../_components/shared/favorite-button";
 
 interface RestaurantImageProps {
-  restaurant: Pick<Restaurant, "name" | "imageUrl">;
+  restaurant: Pick<Restaurant, "name" | "imageUrl" | "id">;
+  isFavorited?: boolean;
 }
 
-const RestaurantImage = ({ restaurant }: RestaurantImageProps) => {
+const RestaurantImage = ({
+  restaurant,
+  isFavorited = false,
+}: RestaurantImageProps) => {
   const router = useRouter();
 
   const handleClickBack = () => router.back();
@@ -31,12 +36,13 @@ const RestaurantImage = ({ restaurant }: RestaurantImageProps) => {
         <ChevronLeftIcon />
       </Button>
 
-      <Button
-        size="icon"
-        className="absolute right-4 top-4 rounded-full bg-gray-700"
-      >
-        <HeartIcon size={22} className="fill-white" />
-      </Button>
+      <div className="absolute right-4 top-4">
+        <FavoriteButton
+          restaurantId={restaurant.id}
+          isFavorited={isFavorited}
+          size={22}
+        />
+      </div>
     </div>
   );
 };

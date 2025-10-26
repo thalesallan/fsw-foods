@@ -6,22 +6,29 @@ import { Restaurant } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import searchForRestaurants from "../_actions/search";
+import { useSession } from "next-auth/react";
+
+type RestaurantWithFavorite = Restaurant & { isFavorited: boolean };
 
 const Restaurants = () => {
   const searchParams = useSearchParams();
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const { data: session } = useSession();
+  const [restaurants, setRestaurants] = useState<RestaurantWithFavorite[]>([]);
   const searchFor = searchParams.get("search");
 
   useEffect(() => {
     const fetchRestaurants = async () => {
       if (!searchFor) return;
 
-      const restaurants = await searchForRestaurants(searchFor);
+      const restaurants = await searchForRestaurants(
+        searchFor,
+        session?.user?.id,
+      );
       setRestaurants(restaurants);
     };
 
     fetchRestaurants();
-  }, [searchFor]);
+  }, [searchFor, session?.user?.id]);
 
   return (
     <>
@@ -33,11 +40,12 @@ const Restaurants = () => {
             : "Ops... Não encontramos nada!"}
         </h2>
         <div className="flex w-full flex-col gap-6">
-          {restaurants.map((restaurants) => (
+          {restaurants.map((restaurant) => (
             <RestaurantItem
-              key={restaurants.id}
-              restaurant={restaurants}
+              key={restaurant.id}
+              restaurant={restaurant}
               className="min-w-full max-w-full"
+              isFavorited={restaurant.isFavorited}
             />
           ))}
         </div>
